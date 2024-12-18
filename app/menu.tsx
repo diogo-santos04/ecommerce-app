@@ -4,6 +4,7 @@ import {
 import { Header } from "../components/header";
 import { ButtonCard } from "../components/button-card";
 import { ButtonAction } from "../components/button-action";
+import { ButtonActionQuad } from "../components/button-action-quad";
 import { ButtonGeneral } from "../components/button-general";
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { StatusBar } from "expo-status-bar";
@@ -44,6 +45,15 @@ export default function Screen() {
 
       <View className="h-1 bg-gray-100 mt-8"></View>
 
+      <View>
+        <Text className="text-2xl font-semibold px-6 py-4">Categorias</Text>
+        <View className="flex-row flex-wrap px-2">
+          <ButtonActionQuad icon="bath" label="Sais de Banho" onPress={() => {}}/>
+          <ButtonActionQuad icon="prescription-bottle-medical" label="Medicinal" onPress={() => {}}/>
+          <ButtonActionQuad icon="bag-shopping" label="Kits" onPress={() => {}}/>
+          <ButtonActionQuad icon="bottle-droplet" label="Tratamentos" onPress={() => {}}/>
+        </View>
+      </View>
     </ScrollView>
   );
 }

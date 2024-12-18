@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import {View,TextInput,Button,Text,FlatList,TouchableOpacity,} from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  Text,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import axios from "axios";
-
-// Definindo uma interface para o tipo do usuário
-interface Usuario {
-  id: number;
-  nome: string;
-  cpf: string;
-}
+import { Usuario } from "../types/usuario";
+import { getUserList, createUser, deleteUser } from "../services/usuarios";
 
 const usuario = () => {
   const [nome, setNome] = useState("");
@@ -15,71 +17,31 @@ const usuario = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
 
-  //funcao q manda salvar
   const handleSubmit = async () => {
     try {
-      const cpfAsNumber = Number(cpf);
-      if (isNaN(cpfAsNumber)) {
-        throw new Error("O CPF deve ser um número válido");
-      }
-      await salvarUsuario(nome, cpfAsNumber);
+      const user = await createUser(nome, cpf);
+      fetchUsuarios() // Update state with the returned user
       setNome("");
       setCpf("");
-      fetchUsuarios();
     } catch (error) {
       console.error("Erro ao salvar usuário:", error);
     }
   };
 
-  //funcao de salvar usuario
-  const salvarUsuario = async (nome: string, cpf: number) => {
-    try {
-      const resposta = await axios.post("http://localhost:3000/api/usuario", {
-        nome,
-        cpf,
-      });
-
-      console.log("Usuário salvo com sucesso:", resposta.data);
-    } catch (error: any) {
-      console.error(
-        "Erro ao salvar usuário:",
-        error.response?.data || error.message
-      );
-    }
-  };
-
   const deletarUsuario = async (id: number) => {
-    try {
-      // Fazendo a requisição DELETE para a API
-      await axios.delete(`http://localhost:3000/api/usuario/${id}`);
-
-      // Atualizando a lista de usuários após a exclusão
-      fetchUsuarios();
-      console.log(`Usuário com id ${id} deletado com sucesso.`);
-    } catch (error: any) {
-      // Tratando erros e exibindo mensagens apropriadas
-      console.error(
-        "Erro ao deletar usuário:",
-        error.response?.data || error.message
-      );
-    }
+    await deleteUser(id);
+    fetchUsuarios(); // Fetch updated list after deletion
   };
 
-  //funcao p renderizar os usuarios
   const fetchUsuarios = async () => {
-    try {
-      const resposta = await axios.get("http://localhost:3000/dados");
-      setUsuarios(resposta.data);
-    } catch (error) {
-      console.error("Erro ao buscar usuários:", error);
-    } finally {
-      setLoading(false);
-    }
+    const userList = await getUserList();
+    setUsuarios(userList);
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchUsuarios();
-  }, []);
+  }, []); // Empty dependency array to fetch users only once
 
   const renderItem = ({ item }: { item: Usuario }) => (
     <View className="bg-white p-4 mb-2 rounded-lg border border-gray-200 flex-row justify-between items-center">
