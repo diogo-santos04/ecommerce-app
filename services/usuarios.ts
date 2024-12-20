@@ -1,10 +1,12 @@
 import axios from "axios";
 
-export const createUser = async (nome: string, cpf: string) => {
+export const registerUser = async (nome: string, cpf: string, email: string, password: string) => {
   try {
-    const response = await axios.post("http://localhost:3000/usuario/create", {
+    const response = await axios.post("http://localhost:3000/usuario/register", {
       nome,
       cpf,
+      email,
+      password
     });
     console.log(response.data);
     return response.data;
@@ -12,6 +14,18 @@ export const createUser = async (nome: string, cpf: string) => {
     throw error.response?.data || error.message;
   }
 };
+
+export const login = async (email: string, password: string) => {
+  try {
+    const response = await axios.post("http://localhost:3000/usuario/login",{
+      email,
+      password
+    })
+    return response.data;
+  } catch (error) { 
+      console.log(error);
+  }
+}
 
 export const deleteUser = async (id: number) => {
   try {

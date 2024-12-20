@@ -1,43 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Pressable, TextInput } from "react-native";
 import { Icon } from "react-native-elements";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import "../global.css";
-import { ButtonAction } from "../components/button-action";
-import { login } from "../services/usuarios";
+import { registerUser, } from "../services/usuarios";
 
 export default function Login() {
+  const [nome, setNome] = useState("");
+  const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSubmit = async () => {
     try {
-      const user = await login(email, password);
+      const user = await registerUser(nome, cpf, email, password);
       console.log(user);
-      if (user.status) {
-        router.push("/menu");
-      } else {
-        const errorMessage =
-          user.error || "Email ou senha inválido";
+      router.push("/menu");
+    } catch (error:any) {
+        const errorMessage = error.response?.data?.error || "Erro ao registrar.";
         setError(errorMessage);
-      }
-    } catch (error) {
-      console.log(error);
     }
   };
 
   return (
     <View className="flex-1 bg-[#ECEBDE] justify-center px-6">
       <Text className="text-3xl text-black font-semibold text-center">
-        Acesse
+        Crie sua conta
       </Text>
 
       <Text className="text-xl text-black text-center mt-2">
-        Com o email ou senha para acessar
+        Informe os dados abaixo para registrar
       </Text>
+
+      <TextInput
+        className="w-full p-4 mt-6 bg-white border border-gray-300 rounded-md"
+        placeholder="Nome"
+        value={nome}
+        onChangeText={setNome}
+      />
+
+      <TextInput
+        className="w-full p-4 mt-6 bg-white border border-gray-300 rounded-md"
+        placeholder="CPF"
+        value={cpf}
+        onChangeText={setCpf}
+      />
 
       <TextInput
         className="w-full p-4 mt-6 bg-white border border-gray-300 rounded-md"
@@ -56,27 +66,15 @@ export default function Login() {
       />
 
       {error && <Text className="text-red-500 text-center mt-4">{error}</Text>}
-      <Pressable className="text-lg text-blue-500 mt-4">
-        <Text>Esqueci minha senha</Text>
-      </Pressable>
 
       <Pressable
         className="bg-primario p-4 rounded-md mt-6"
         onPress={handleSubmit}
       >
         <Text className="text-white text-center text-lg font-semibold">
-          Acessar
+          Registrar
         </Text>
       </Pressable>
-
-      <View className="flex-row justify-center mt-4">
-        <Text className="text-lg text-black">Ainda não tem uma conta? </Text>
-        <Link href="/register">
-          <Pressable>
-            <Text className="text-lg text-blue-500">Cadastrar</Text>
-          </Pressable>
-        </Link>
-      </View>
     </View>
   );
 }

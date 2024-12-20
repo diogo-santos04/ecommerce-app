@@ -14,27 +14,25 @@ export default function Teste(){
        setMovies(movieList);
     }
 
-    const getUsuarios = async () => {
-        const response = await fetch ("http://localhost:3000/usuario/dados")
-        try {
-            const json = await response.json();
-            console.log(json);
-            setUsuarios(json);
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    // const getUsuarios = async () => {
+    //     const response = await fetch ("http://localhost:3000/usuario/dados")
+    //     try {
+    //         const json = await response.json();
+    //         console.log(json);
+    //         setUsuarios(json);
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
 
     //funcao que roda quando pagina é renderizada (?)
     useEffect(() =>{
         getMovies();
-        getUsuarios();
     }, [])
 
     return(
         <View className=" justify-center items-center"> 
             <Text className="text-1xl m-2">Quantidade de Filmes: {movies.length}</Text>
-            <Text className="text-1xl m-2">Quantidade de usuarios: {usuarios.length}</Text>
 
             {movies.map(movie => (
                 <View key={movie.id} className="justify-center items-center">

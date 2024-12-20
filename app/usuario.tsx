@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import { Usuario } from "../types/usuario";
-import { getUserList, createUser, deleteUser } from "../services/usuarios";
+import { getUserList, registerUser, deleteUser } from "../services/usuarios";
 
 const usuario = () => {
   const [nome, setNome] = useState("");
@@ -19,7 +19,7 @@ const usuario = () => {
 
   const handleSubmit = async () => {
     try {
-      const user = await createUser(nome, cpf);
+      const user = await registerUser(nome, cpf, email, password);
       fetchUsuarios() // Update state with the returned user
       setNome("");
       setCpf("");
