@@ -17,7 +17,7 @@ export const registerUser = async (nome: string, cpf: string, email: string, pas
 
 export const login = async (email: string, password: string) => {
   try {
-    const response = await axios.post("http://localhost:3000/usuario/login",{
+    const response = await axios.post("http://10.42.20.89:3000/usuario/login",{
       email,
       password
     })
@@ -29,7 +29,7 @@ export const login = async (email: string, password: string) => {
 
 export const deleteUser = async (id: number) => {
   try {
-    await axios.delete(`http://localhost:3000/usuario/delete/${id}`);
+    await axios.delete(`http://10.42.20.89:3000/usuario/delete/${id}`);
     console.log(`Usuario com id ${id} deletado com sucesso`);
   } catch (error) {
     console.log(`Erro ao deletar usuario ${error}`);
@@ -38,7 +38,7 @@ export const deleteUser = async (id: number) => {
 
 export const getUserList = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/usuario/dados");
+    const response = await axios.get("http://10.42.20.89:3000/usuario/dados");
     return response.data;
   } catch (error) {
     console.log(`erro ao buscar dados ${error}`);

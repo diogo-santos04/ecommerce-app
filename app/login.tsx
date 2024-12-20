@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Pressable, TextInput } from "react-native";
+import { Text, View, Pressable, TextInput, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import { Link, useRouter } from "expo-router";
 import "../global.css";
 import { ButtonAction } from "../components/button-action";
 import { login } from "../services/usuarios";
+import { Touchable } from "react-native";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -60,14 +61,11 @@ export default function Login() {
         <Text>Esqueci minha senha</Text>
       </Pressable>
 
-      <Pressable
-        className="bg-primario p-4 rounded-md mt-6"
-        onPress={handleSubmit}
-      >
+      <TouchableOpacity className="bg-primario p-4 rounded-md mt-6" onPress={handleSubmit}>
         <Text className="text-white text-center text-lg font-semibold">
           Acessar
         </Text>
-      </Pressable>
+      </TouchableOpacity>
 
       <View className="flex-row justify-center mt-4">
         <Text className="text-lg text-black">Ainda não tem uma conta? </Text>
