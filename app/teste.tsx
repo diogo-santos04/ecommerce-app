@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { Movie } from "../types/movie";
 import { Usuario } from "../types/usuario";
 import { getMovieList } from "../services/movies";
-import usuario from "./usuario";
+import usuario from "./admin";
 
 export default function Teste() {
   const [movies, setMovies] = useState<Movie[]>([]);

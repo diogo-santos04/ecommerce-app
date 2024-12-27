@@ -4,6 +4,10 @@ import { Icon } from "react-native-elements";
 import { Link } from "expo-router";
 import "../global.css";
 
+export const options = {
+  headerShown: false, // Oculta o header
+};
+
 export default function Inicial() {
   return (
     <View className="flex-1 bg-primario items-center justify-center px-5">
