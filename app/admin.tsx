@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   TextInput,
@@ -36,7 +36,12 @@ const AdminPanel = () => {
 
   const handleProductSubmit = async () => {
     try {
-      const product = await adicionarProduto(nome, descricao, preco, categoriaId);
+      const product = await adicionarProduto(
+        nome,
+        descricao,
+        preco,
+        categoriaId
+      );
       fetchProducts();
       setNome("");
       setDescricao("");
@@ -57,15 +62,29 @@ const AdminPanel = () => {
     }
   };
 
-  const deletarProduto = async (id: number) => {
-    await deletarProduto(id);
-    fetchProducts();
-  };
+  const handleDeletarProduto = useCallback(
+    async (id: number) => {
+      try {
+        await deletarProduto(id);
+        fetchProducts();
+      } catch (error) {
+        console.error("Erro ao deletar produtos:", error);
+      }
+    },
+    [deletarProduto] 
+  );
 
-  const deletarCategoria = async (id: number) => {
-    await deletarCategoria(id);
-    fetchCategorias();
-  };
+  const handleDeletarCategoria = useCallback(
+    async (id: number) => {
+      try {
+        await deletarCategoria(id);
+        fetchCategorias();
+      } catch (error) {
+        console.error("Erro ao deletar categoria:", error);
+      }
+    },
+    [deletarCategoria, ] 
+  );
 
   const fetchProducts = async () => {
     const productList = await getProdutos();
@@ -94,7 +113,7 @@ const AdminPanel = () => {
       </View>
       <TouchableOpacity
         className="bg-red-500 p-2 rounded ml-4"
-        onPress={() => deletarProduto(item.id)}
+        onPress={() => handleDeletarProduto(item.id)}
       >
         <Text className="text-white text-xs">Deletar</Text>
       </TouchableOpacity>
@@ -108,7 +127,7 @@ const AdminPanel = () => {
       </View>
       <TouchableOpacity
         className="bg-red-500 p-2 rounded ml-4"
-        onPress={() => deletarCategoria(item.id)}
+        onPress={() => handleDeletarCategoria(item.id)}
       >
         <Text className="text-white text-xs">Deletar</Text>
       </TouchableOpacity>

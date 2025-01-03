@@ -23,7 +23,9 @@ export const adicionarCategoria = async (nome: string): Promise<Categoria> => {
 };
 
 export const deletarCategoria = async (id: number): Promise<void> => {
+  console.log("hit");
   try {
+    console.log(id);
     await axios.delete(`http://10.42.20.89:3000/categoria/delete/${id}`);
   } catch (error) {
     console.error("Erro ao deletar categoria:", error);
