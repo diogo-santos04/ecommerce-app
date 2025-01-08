@@ -1,17 +1,37 @@
-import {
-  Button,ScrollView,StyleSheet,Text,TextInput,View,Image,
-} from "react-native";
+import {ScrollView,Text,View,} from "react-native";
+import React, { useEffect, useState } from "react";
 import { Header } from "../components/header";
 import { ButtonCard } from "../components/button-card";
 import { ButtonAction } from "../components/button-action";
 import { ButtonActionQuad } from "../components/button-action-quad";
-import { ButtonGeneral } from "../components/button-general";
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { StatusBar } from "expo-status-bar";
-import Card from "../components/card";
+import CardProduto from "../components/cardProduto";
+import { Produtos } from "../types/produtos";
+import { Categoria } from "../types/categoria";
+import { getProdutos } from "../services/produtos";
+import { getCategorias } from "../services/categorias";
 // import { Image } from "expo-image";
 
 export default function Screen() {
+  const [produtos, setProdutos] = useState<Produtos[]>([]);
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+
+  const fetchProducts = async () => {
+    const productList = await getProdutos();
+    setProdutos(productList);
+  };
+
+  const fetchCategorias = async () => {
+    const categoriaList = await getCategorias();
+    setCategorias(categoriaList);
+  };
+
+  useEffect(() => {
+    fetchProducts();
+    fetchCategorias();
+  }, []);
+
   return (
     <ScrollView className="h-screen bg-secundario">
       <StatusBar style="light" />
@@ -19,10 +39,14 @@ export default function Screen() {
       <Header />
 
       <ButtonCard title="Produtos" onPress={() => {}}>
-        <Text ></Text>
+        <Text></Text>
       </ButtonCard>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-3" >
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        className="px-3"
+      >
         <ButtonAction icon="box" label="Produto 1" onPress={() => {}} />
         <ButtonAction icon="box" label="Produto 2" onPress={() => {}} />
         <ButtonAction icon="box" label="Produto 3" onPress={() => {}} />
@@ -30,28 +54,55 @@ export default function Screen() {
       </ScrollView>
 
       <View className="h-1 bg-gray-100 mt-8"></View>
-        
+
       <Text className="text-2xl font-semibold px-6 py-4">Lançamentos</Text>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-1">
-            <View className="px-4 py-6">
-                <View className="flex-row space-x-5">      
-                    <Card label="" imagem="" title="Kit Exemplo" descricao="Descricao produto" preco={25}/>
-                    <Card label="" imagem="" title="Kit Exemplo 2" descricao="descricao produto 2" preco={12}/>
-                </View>
-            </View>
-        </ScrollView>
-     
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        className="px-1"
+      >
+        <View className="px-4 py-6">
+          <View className="flex-row space-x-5">
+            {produtos.map((produtos) => (
+              <CardProduto
+                key={produtos.id}
+                label={produtos.nome}
+                imagem={produtos.imagem}
+                title={produtos.nome}
+                descricao={produtos.descricao}
+                preco={produtos.preco}
+              />
+            ))}
+          </View>
+        </View>
+      </ScrollView>
 
       <View className="h-1 bg-gray-100 mt-8"></View>
 
       <View>
         <Text className="text-2xl font-semibold px-6 py-4">Categorias</Text>
         <View className="flex-row flex-wrap px-2">
-          <ButtonActionQuad icon="bath" label="Sais de Banho" onPress={() => {}}/>
-          <ButtonActionQuad icon="prescription-bottle-medical" label="Medicinal" onPress={() => {}}/>
-          <ButtonActionQuad icon="bag-shopping" label="Kits" onPress={() => {}}/>
-          <ButtonActionQuad icon="bottle-droplet" label="Tratamentos" onPress={() => {}}/>
+          <ButtonActionQuad
+            icon="bath"
+            label="Sais de Banho"
+            onPress={() => {}}
+          />
+          <ButtonActionQuad
+            icon="prescription-bottle-medical"
+            label="Medicinal"
+            onPress={() => {}}
+          />
+          <ButtonActionQuad
+            icon="bag-shopping"
+            label="Kits"
+            onPress={() => {}}
+          />
+          <ButtonActionQuad
+            icon="bottle-droplet"
+            label="Tratamentos"
+            onPress={() => {}}
+          />
         </View>
       </View>
     </ScrollView>

@@ -7,10 +7,10 @@ type Props = {
     label: string;
     descricao: string;
     preco: number;
-    imagem: string;
+    imagem: any;
 }
 
-const Card = ({title,imagem, label, descricao, preco}: Props) => {
+const cardProduto = ({title,imagem, label, descricao, preco}: Props) => {
   return (
     <View className="bg-white rounded-lg shadow-md p-4 w-64">
       <Image
@@ -53,4 +53,4 @@ const Card = ({title,imagem, label, descricao, preco}: Props) => {
   );
 };
 
-export default Card;
+export default cardProduto;
