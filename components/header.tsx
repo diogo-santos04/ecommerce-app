@@ -1,6 +1,7 @@
-import { SafeAreaView, Text, View } from "react-native";
+import { Pressable, SafeAreaView, Text, View } from "react-native";
 import { ProfileIcon } from "./profile-icon";
 import { ButtonIcon } from "./button-icon";
+import { Link } from "expo-router";
 
 export const Header = () => {
   return (
@@ -10,7 +11,12 @@ export const Header = () => {
         <View className="flex-row">
           <ButtonIcon icon="magnifying-glass" onPress={() => {}} />
           <ButtonIcon icon="bell" onPress={() => {}} />
-          <ButtonIcon icon="cart-shopping" onPress={() => {}} />
+          <Link href="/carrinho">
+            <Pressable>
+              <ButtonIcon icon="cart-shopping" onPress={() => {}} />
+            </Pressable>
+          </Link>
+
           <ProfileIcon />
         </View>
       </View>

@@ -10,6 +10,7 @@ export default function RootLayout() {
       <Stack.Screen name="menu" options={{ headerShown: false }} />
       <Stack.Screen name="admin" options={{ headerShown: false }} />
       <Stack.Screen name="teste" options={{ headerShown: false }} />
+      <Stack.Screen name="carrinho" options={{ headerShown: false }} />
     </Stack>
   );
 }
