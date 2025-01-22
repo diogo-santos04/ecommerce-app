@@ -17,8 +17,7 @@ export default function Login() {
   const handleSubmit = async () => {
     try {
       const user = await login(email, password);
-      console.log(user);
-      if (user.status) {
+      if (user) {
         router.push("/menu");
       } else {
         const errorMessage =
