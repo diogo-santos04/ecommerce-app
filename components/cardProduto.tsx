@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Pressable, ViewStyle } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 type Props = {
@@ -8,12 +8,11 @@ type Props = {
     descricao: string;
     preco: number;
     imagem: any;
-    style?: ViewStyle; // Add style prop
 }
 
-const CardProduto = ({ title, imagem, label, descricao, preco, style }: Props) => {
+const cardProduto = ({title,imagem, label, descricao, preco}: Props) => {
   return (
-    <View className="bg-white rounded-lg shadow-md p-4" style={[{ minWidth: 200, maxWidth: 300 }, style]}>
+    <View className="bg-white rounded-lg shadow-md p-4" style={{ minWidth: 200, maxWidth: 300 }}>
       <Image
         source={{ uri: imagem }}
         className="h-36 w-full rounded-md"
@@ -54,4 +53,4 @@ const CardProduto = ({ title, imagem, label, descricao, preco, style }: Props) =
   );
 };
 
-export default CardProduto;
+export default cardProduto;
